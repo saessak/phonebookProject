@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Form, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
+import { phonebookActions } from '../redux/reducer';
 
 const ContactForm = () => {
     const [name, setName]=useState('');
@@ -9,7 +10,8 @@ const ContactForm = () => {
     
     const addContact=(event)=>{
         event.preventDefault(); //클릭시 새로고침 방지
-        dispatch({type:"ADD_CONTACT", payload:{name,phoneNumber}});
+        /*dispatch({type:"ADD_CONTACT", payload:{name,phoneNumber}}); //이전문법*/
+        dispatch(phonebookActions.getAddContact({name,phoneNumber}));
     }
   return (
     <Form onSubmit={addContact}>
@@ -20,7 +22,7 @@ const ContactForm = () => {
 
       <Form.Group className="mb-3" controlId="formContact">
         <Form.Label>전화번호</Form.Label>
-        <Form.Control type="number" placeholder="전화번호를 입력해주세요." onChange={(event)=>setPhoneNumber(event.target.value)}/>
+        <Form.Control type="text" placeholder="전화번호를 입력해주세요." onChange={(event)=>setPhoneNumber(event.target.value)}/>
       </Form.Group>
 
       <Button variant="primary" type="submit" >

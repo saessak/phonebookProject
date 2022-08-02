@@ -1,24 +1,51 @@
-let initialState= {
-    contactList : []
-}
+import { createSlice } from "@reduxjs/toolkit";
 
-function reducer (state=initialState, action) {
-    const {type, payload} = action
-    switch(type){ //행동을 가져온다
-        case "ADD_CONTACT" :
-            return{ //return된 값을 store는 적용한다.
-                ...state,
-                contactList:[
-                    ...state.contactList,
-                    {
-                        name:payload.name,
-                        phoneNumber:payload.phoneNumber
-                    }
-                ]
-            };
-            default:
-                return {...state};
-    }
-}
+const initialState = {
+  contact: [],
+  keyword: "",
+};
 
-export default reducer;
+  //이전문법
+  /*
+    const reducer = (state = initialState, action) => {
+      let { type, payload } = action;
+      switch (type) {
+        case "ADD_CONTACT":
+          state.contact.push({
+            name: payload.name,
+            phoneNumber: payload.phoneNumber,
+          });
+          break;
+        case "SEARCH_BY_USERNAME":
+          state.keyword = payload.keyword;
+          break;
+      }
+    
+      return { ...state };
+    };
+    
+    export default reducer;
+    */
+
+    // 최신문법(redux toolkit)
+    const phonebookSlice = createSlice({
+      name : "phonebook",
+      initialState,
+      reducers:{
+        getAddContact(state, action){
+          state.contact.push({
+            name : action.payload.name,
+            phoneNumber : action.payload.phoneNumber,
+          });
+        },
+
+        getSearchByUserName(state,action){
+          state.keyword = action.payload.keyword;
+        }
+      }
+      
+    });
+
+    export const phonebookActions = phonebookSlice.actions;
+    export default phonebookSlice.reducer;
+    
